@@ -1,0 +1,12 @@
+{
+    "name": "eric/jobeet",
+    "description": "jobeet real try",
+    "minimum-stability": "dev",
+    "license": "NA",
+    "authors": [
+        {
+            "name": "Eric",
+            "email": "eric@soliton-music.com"
+        }
+    ]
+}
