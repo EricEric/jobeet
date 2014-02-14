@@ -5,3 +5,7 @@ ibw_jobeet_homepage:
 IbwJobeetBundle_job:
         resource: "@IbwJobeetBundle/Resources/config/routing/job.yml"
         prefix:   /job
+
+IbwJobeetBundle_category:
+    pattern:  /category/{slug}
+    defaults: { _controller: IbwJobeetBundle:Category:show }

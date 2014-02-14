@@ -3,6 +3,7 @@
 namespace Ibw\JobeetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ibw\JobeetBundle\Utils\Jobeet;
 
 /**
  * Category
@@ -154,4 +155,8 @@ class Category
         return $this->active_jobs;
     }
 
+    public function getSlug()
+    {
+        return Jobeet::slugify($this->getName());
+    }
 }
