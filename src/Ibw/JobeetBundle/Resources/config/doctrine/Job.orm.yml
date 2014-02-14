@@ -1,5 +1,6 @@
 Ibw\JobeetBundle\Entity\Job:
     type: entity
+    repositoryClass: Ibw\JobeetBundle\Repository\JobRepository
     table: job
     id:
         id:
@@ -59,5 +60,5 @@ Ibw\JobeetBundle\Entity\Job:
                 name: category_id
                 referencedColumnName: id
     lifecycleCallbacks:
-        prePersist: [ setCreatedAtValue ]
+        prePersist: [ setCreatedAtValue, setExpiresAtValue ]
         preUpdate: [ setUpdatedAtValue ]

@@ -34,3 +34,7 @@ php app/console router:debug
 
 #Debug single route
 php app/console router:debug ibw_job_show
+
+#Generate the repository
+php app/console doctrine:generate:entities IbwJobeetBundle
+
