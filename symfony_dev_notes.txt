@@ -25,6 +25,12 @@ php app/console doctrine:fixtures:load
 
 #CRUD
 php app/console doctrine:generate:crud --entity=IbwJobeetBundle:Job --route-prefix=ibw_job --with-write --format=yml
+
 #Gen web asset
 php app/console assets:install web --symlink
 
+#Route Debugging
+php app/console router:debug
+
+#Debug single route
+php app/console router:debug ibw_job_show
