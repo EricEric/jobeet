@@ -1,16 +1,20 @@
-{% extends '::base.html.twig' %}
+{% extends 'IbwJobeetBundle::layout.html.twig' %}
 
-{% block body -%}
-    <h1>Job edit</h1>
+{% block content %}
 
-    {{ form(edit_form) }}
+    {% block body -%}
+        <h1>Job edit</h1>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('ibw_job') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        {{ form(edit_form) }}
+
+            <ul class="record_actions">
+        <li>
+            <a href="{{ path('ibw_job') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
+    {% endblock %}
+
 {% endblock %}
