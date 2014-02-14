@@ -22,3 +22,6 @@ php app/console doctrine:schema:update --force
 
 #DB load fixtures
 php app/console doctrine:fixtures:load
+
+#CRUD
+php app/console doctrine:generate:crud --entity=IbwJobeetBundle:Job --route-prefix=ibw_job --with-write --format=yml

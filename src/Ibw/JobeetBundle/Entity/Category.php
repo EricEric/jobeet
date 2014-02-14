@@ -9,6 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
+    public function __toString()
+    {
+        return $this->getName() ? $this->getName() : "";
+    }
+
     /**
      * @var integer
      */
