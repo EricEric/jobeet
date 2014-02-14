@@ -7,5 +7,5 @@ IbwJobeetBundle_job:
         prefix:   /job
 
 IbwJobeetBundle_category:
-    pattern:  /category/{slug}
-    defaults: { _controller: IbwJobeetBundle:Category:show }
+    pattern: /category/{slug}/{page}
+    defaults: { _controller: IbwJobeetBundle:Category:show, page: 1 }
