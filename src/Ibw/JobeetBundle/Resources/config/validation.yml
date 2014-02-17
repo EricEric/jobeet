@@ -22,3 +22,5 @@ Ibw\JobeetBundle\Entity\Job:
             - Email: ~
         url:
             - Url: ~
+        token:
+            - NotBlank: ~
