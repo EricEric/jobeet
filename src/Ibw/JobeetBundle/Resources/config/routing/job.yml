@@ -36,3 +36,8 @@ ibw_job_delete:
     pattern:  /{token}/delete
     defaults: { _controller: "IbwJobeetBundle:Job:delete" }
     requirements: { _method: post|delete }
+
+ibw_job_publish:
+    pattern:  /{token}/publish
+    defaults: { _controller: "IbwJobeetBundle:Job:publish" }
+    requirements: { _method: post }
