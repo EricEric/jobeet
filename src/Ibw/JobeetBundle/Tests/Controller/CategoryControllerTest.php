@@ -87,6 +87,16 @@ class JobControllerTest extends WebTestCase
 
         // test jobs are sorted by date
         $this->assertTrue($crawler->filter('.category_programming tr')->first()->filter(sprintf('a[href*="/%d/"]', $this->getMostRecentProgrammingJob()->getId()))->count() == 1);
+
+        // test each job on the homepage is clickable
+        $job = $this->getMostRecentProgrammingJob();
+        $link = $crawler->selectLink('Web Developer')->first()->link();
+        $crawler = $client->click($link);
+        $this->assertEquals('Ibw\JobeetBundle\Controller\JobController::showAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals($job->getCompanySlug(), $client->getRequest()->attributes->get('company'));
+        $this->assertEquals($job->getLocationSlug(), $client->getRequest()->attributes->get('location'));
+        $this->assertEquals($job->getPositionSlug(), $client->getRequest()->attributes->get('position'));
+        $this->assertEquals($job->getId(), $client->getRequest()->attributes->get('id'));
     }
 
     public function getMostRecentProgrammingJob()
