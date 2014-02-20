@@ -74,5 +74,11 @@ class JobControllerTest extends WebTestCase
 
         $this->assertEquals('Ibw\JobeetBundle\Controller\JobController::indexAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertTrue($crawler->filter('.jobs td.position:contains("Expired")')->count() == 0);
+
+        // test only n jobs are listed for a category
+        $kernel = static::createKernel();
+        $kernel->boot();
+        $max_jobs_on_homepage = $kernel->getContainer()->getParameter('max_jobs_on_homepage');
+        $this->assertTrue($crawler->filter('.category_programming tr')->count() <= $max_jobs_on_homepage );
     }
 }
