@@ -161,5 +161,14 @@ class JobControllerTest extends WebTestCase
         //testing the form
         $client->followRedirect();
         $this->assertEquals('Ibw\JobeetBundle\Controller\JobController::previewAction', $client->getRequest()->attributes->get('_controller'));
+
+        //testing the database record
+        $kernel = static::createKernel();
+        $kernel->boot();
+        $em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+
+        $query = $em->createQuery('SELECT count(j.id) from IbwJobeetBundle:Job j WHERE j.location = :location AND j.is_activated IS NULL AND j.is_public = 0');
+        $query->setParameter('location', 'Atlanta, USA');
+        $this->assertTrue(0 < $query->getSingleScalarResult());
     }
 }
