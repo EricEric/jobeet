@@ -170,5 +170,80 @@ class JobControllerTest extends WebTestCase
         $query = $em->createQuery('SELECT count(j.id) from IbwJobeetBundle:Job j WHERE j.location = :location AND j.is_activated IS NULL AND j.is_public = 0');
         $query->setParameter('location', 'Atlanta, USA');
         $this->assertTrue(0 < $query->getSingleScalarResult());
+
+        //testing for errors
+        $crawler = $client->request('GET', '/job/new');
+        $form = $crawler->selectButton('Preview your job')->form(array(
+            'job[company]'      => 'Sensio Labs',
+            'job[position]'     => 'Developer',
+            'job[location]'     => 'Atlanta, USA',
+            'job[email]'        => 'not.an.email',
+        ));
+        $crawler = $client->submit($form);
+
+        // check if we have 3 errors
+        $this->assertTrue($crawler->filter('.error_list')->count() == 3);
+
+        // check if we have error on job_description field
+        $this->assertTrue($crawler->filter('#job_description')->siblings()->first()->filter('.error_list')->count() == 1);
+
+        // check if we have error on job_how_to_apply field
+        $this->assertTrue($crawler->filter('#job_how_to_apply')->siblings()->first()->filter('.error_list')->count() == 1);
+
+        // check if we have error on job_email field
+        $this->assertTrue($crawler->filter('#job_email')->siblings()->first()->filter('.error_list')->count() == 1);
+    }
+
+    public function createJob($values = array())
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/job/new');
+        $form = $crawler->selectButton('Preview your job')->form(array_merge(array(
+            'job[company]'      => 'Sensio Labs',
+            'job[url]'          => 'http://www.sensio.com/',
+            'job[position]'     => 'Developer',
+            'job[location]'     => 'Atlanta, USA',
+            'job[description]'  => 'You will work with symfony to develop websites for our customers.',
+            'job[how_to_apply]' => 'Send me an email',
+            'job[email]'        => 'for.a.job@example.com',
+            'job[is_public]'    => false,
+        ), $values));
+
+        $client->submit($form);
+        $client->followRedirect();
+
+        return $client;
+    }
+
+    public function testPublishJob()
+    {
+        $client = $this->createJob(array('job[position]' => 'FOO1'));
+        $crawler = $client->getCrawler();
+        $form = $crawler->selectButton('Publish')->form();
+        $client->submit($form);
+
+        $kernel = static::createKernel();
+        $kernel->boot();
+        $em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+
+        $query = $em->createQuery('SELECT count(j.id) from IbwJobeetBundle:Job j WHERE j.position = :position AND j.is_activated = 1');
+        $query->setParameter('position', 'FOO1');
+        $this->assertTrue(0 < $query->getSingleScalarResult());
+    }
+
+    public function testDeleteJob()
+    {
+        $client = $this->createJob(array('job[position]' => 'FOO2'));
+        $crawler = $client->getCrawler();
+        $form = $crawler->selectButton('Delete')->form();
+        $client->submit($form);
+
+        $kernel = static::createKernel();
+        $kernel->boot();
+        $em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+
+        $query = $em->createQuery('SELECT count(j.id) from IbwJobeetBundle:Job j WHERE j.position = :position');
+        $query->setParameter('position', 'FOO2');
+        $this->assertTrue(0 == $query->getSingleScalarResult());
     }
 }
