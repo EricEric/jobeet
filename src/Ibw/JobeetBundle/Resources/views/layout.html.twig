@@ -44,6 +44,12 @@
         </div>
     </div>
 
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div>
+            {{ flassMessage }}
+        </div>
+    {% endfor %}
+
     <div id="job_history">
         Recent viewed jobs:
         <ul>
@@ -54,7 +60,7 @@
             {% endfor %}
         </ul>
     </div>
-    
+
     <div id="content">
         {% for flashMessage in app.session.flashbag.get('notice') %}
             <div class="flash_notice">
