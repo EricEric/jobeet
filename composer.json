@@ -21,7 +21,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "doctrine/data-fixtures": "dev-master",
-        "phpunit/phpunit": "3.7.31"
+        "phpunit/phpunit": "3.7.31",
+        "sonata-project/admin-bundle": "2.2.11",
+        "sonata-project/doctrine-orm-admin-bundle": "2.2.7"
     },
     "scripts": {
         "post-install-cmd": [
