@@ -31,8 +31,20 @@ class JobController extends Controller
             $category->setMoreJobs($em->getRepository('IbwJobeetBundle:Job')->countActiveJobs($category->getId()) - $this->container->getParameter('max_jobs_on_homepage'));
         }
 
-        return $this->render('IbwJobeetBundle:Job:index.html.twig', array(
-            'categories' => $categories
+        $latestJob = $em->getRepository('IbwJobeetBundle:Job')->getLatestPost();
+
+        if($latestJob) {
+            $lastUpdated = $latestJob->getCreatedAt()->format(DATE_ATOM);
+        } else {
+            $lastUpdated = new \DateTime();
+            $lastUpdated = $lastUpdated->format(DATE_ATOM);
+        }
+
+        $format = $this->getRequest()->getRequestFormat();
+        return $this->render('IbwJobeetBundle:Job:index.'.$format.'.twig', array(
+            'categories' => $categories,
+            'lastUpdated' => $lastUpdated,
+            'feedId' => sha1($this->get('router')->generate('ibw_job', array('_format'=> 'atom'), true)),
         ));
     }
 
