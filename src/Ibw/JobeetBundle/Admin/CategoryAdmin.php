@@ -9,5 +9,32 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class CategoryAdmin extends Admin
 {
-    // Your code will be here
+    // setup the default sort column and order
+    protected $datagridValues = array(
+        '_sort_order' => 'ASC',
+        '_sort_by' => 'name'
+    );
+
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        $formMapper
+            ->add('name')
+            ->add('slug')
+        ;
+    }
+
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('name')
+        ;
+    }
+
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('name')
+            ->add('slug')
+        ;
+    }
 }
