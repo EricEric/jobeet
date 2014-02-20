@@ -15,6 +15,9 @@ security:
                 login_path:  /login
                 check_path:  /login_check
                 default_target_path: ibw_jobeet_homepage
+            logout:
+                path:   /logout
+                target: /
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
