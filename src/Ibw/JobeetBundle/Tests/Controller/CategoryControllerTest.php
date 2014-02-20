@@ -80,5 +80,9 @@ class JobControllerTest extends WebTestCase
         $kernel->boot();
         $max_jobs_on_homepage = $kernel->getContainer()->getParameter('max_jobs_on_homepage');
         $this->assertTrue($crawler->filter('.category_programming tr')->count() <= $max_jobs_on_homepage );
+
+        // test a category has a link to the category page only if too many jobs
+        $this->assertTrue($crawler->filter('.category_design .more_jobs')->count() == 0);
+        $this->assertTrue($crawler->filter('.category_programming .more_jobs')->count() == 1);
     }
 }
