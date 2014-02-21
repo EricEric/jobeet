@@ -1,5 +1,6 @@
 Ibw\JobeetBundle\Entity\Affiliate:
     type: entity
+    repositoryClass: Ibw\JobeetBundle\Repository\AffiliateRepository
     table: affiliate
     id:
         id:
