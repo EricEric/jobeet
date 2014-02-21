@@ -1,5 +1,6 @@
 Ibw\JobeetBundle\Entity\Affiliate:
     type: entity
+    repositoryClass: Ibw\JobeetBundle\Repository\AffiliateRepository
     table: affiliate
     id:
         id:
@@ -33,4 +34,4 @@ Ibw\JobeetBundle\Entity\Affiliate:
                     category_id:
                         referencedColumnName: id
     lifecycleCallbacks:
-        prePersist: [ setCreatedAtValue ]
+        prePersist: [ setCreatedAtValue, setTokenValue ]
