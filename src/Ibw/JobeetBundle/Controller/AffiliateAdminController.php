@@ -23,9 +23,19 @@ class AffiliateAdminController extends Controller
             foreach($selectedModels as $selectedModel) {
                 $selectedModel->activate();
                 $modelManager->update($selectedModel);
+
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Jobeet affiliate token')
+                    ->setFrom('address@example.com')
+                    ->setTo($selectedModel->getEmail())
+                    ->setBody(
+                        $this->renderView('IbwJobeetBundle:Affiliate:email.txt.twig', array('affiliate' => $selectedModel->getToken())))
+                ;
+
+                $this->get('mailer')->send($message);
             }
         } catch(\Exception $e) {
-            $this->get('session')->getFlashBag()->add('sonata_flash_error', $e->getMessage());
+            $this->get('session')->setFlash('sonata_flash_error', $e->getMessage());
 
             return new RedirectResponse($this->admin->generateUrl('list',$this->admin->getFilterParameters()));
         }
@@ -74,14 +84,21 @@ class AffiliateAdminController extends Controller
         try {
             $affiliate->setIsActive(true);
             $em->flush();
-        } catch(\Exception $e) {
-            $this->get('session')->getFlashBag()->add('sonata_flash_error', $e->getMessage());
 
-            return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Jobeet affiliate token')
+                ->setFrom('address@example.com')
+                ->setTo($affiliate->getEmail())
+                ->setBody(
+                    $this->renderView('IbwJobeetBundle:Affiliate:email.txt.twig', array('affiliate' => $affiliate->getToken())))
+            ;
+
+            $this->get('mailer')->send($message);
+        } catch(\Exception $e) {
+            $this->get('session')->setFlash('sonata_flash_error', $e->getMessage());
         }
 
         return new RedirectResponse($this->admin->generateUrl('list',$this->admin->getFilterParameters()));
-
     }
 
     public function deactivateAction($id)
