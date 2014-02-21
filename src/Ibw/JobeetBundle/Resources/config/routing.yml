@@ -15,3 +15,7 @@ IbwJobeetBundle_api:
     defaults: {_controller: "IbwJobeetBundle:Api:list"}
     requirements:
         _format: xml|json|yaml
+
+IbwJobeetBundle_ibw_affiliate:
+    resource: "@IbwJobeetBundle/Resources/config/routing/affiliate.yml"
+    prefix:   /affiliate
